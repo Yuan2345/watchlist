@@ -1,10 +1,6 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    return 'Welcome to My Watchlist!'
 
 name = 'Yuan2345'
 movies = [
@@ -19,9 +15,6 @@ movies = [
     {'title': 'WALL-E', 'year': '2008'},
     {'title': 'The Pork of Music', 'year': '2012'},
 ]
-from flask import Flask, render_template
-
-# ...
 
 @app.route('/')
 def index():
