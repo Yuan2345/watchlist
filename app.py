@@ -10,6 +10,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # 关闭对模型修改的
 # 在扩展类实例化前加载配置
 db = SQLAlchemy(app)
 
+#密钥
+app.config['SECRET_KEY'] = 'dev'  # 等同于 app.secret_key = 'dev'
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -21,7 +24,7 @@ def index():
         type = request.form.get('type')
 
         # 验证数据
-        if not title or not year or len(year) > 4 or len(title) > 60:
+        if not title or not date or not country or not type or len(date) > 30 or len(title) > 60:
             flash('Invalid input.')  # 显示错误提示
             return redirect(url_for('index'))  # 重定向回主页
         # 保存表单数据到数据库
@@ -111,7 +114,10 @@ def edit(movie_id):
             return redirect(url_for('edit', movie_id=movie_id))  # 重定向回对应的编辑页面
 
         movie.title = title  # 更新标题
-        movie.year = year  # 更新年份
+        movie.date = date# 更新年份
+        movie.country = country  # 更新标题
+        movie.type = type
+
         db.session.commit()  # 提交数据库会话
         flash('Item updated.')
         return redirect(url_for('index'))  # 重定向回主页
